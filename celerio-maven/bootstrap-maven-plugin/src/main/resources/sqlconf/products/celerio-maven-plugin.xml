@@ -94,7 +94,7 @@
                 <columnConfig columnName="login" min="4" fieldName="username" searchResult="true">
                     <fullTextField/>
                 </columnConfig>
-                <columnConfig columnName="password">
+                <columnConfig columnName="password" fieldName="password">
                 </columnConfig>
                 <columnConfig columnName="email" searchResult="true">
                     <fullTextField/>
@@ -108,6 +108,8 @@
                 <columnConfig columnName="birth_date">
                 </columnConfig>
                 <columnConfig columnName="is_enabled" searchResult="true">
+                </columnConfig>
+                <columnConfig columnName="is_encrypted" searchResult="true">
                 </columnConfig>
                 <columnConfig columnName="title" sharedEnumName="Title">
                 </columnConfig>
@@ -142,6 +144,11 @@
                 <columnConfig columnName="quantity">
                     <labels>
                         <label value="quantity"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="price">
+                    <labels>
+                        <label value="Price"/>
                     </labels>
                 </columnConfig>
             </columnConfigs>

@@ -58,9 +58,9 @@ public class SearchAttribute extends AbstractAttributeSpi {
     public List<String> getAnnotations() {
         AnnotationBuilder annotations = new AnnotationBuilder();
         annotations.add( //
-                getFieldAnnotation(), //
-                getFieldBridgeAnnotation(), //
-                getTikaBridgeAnnotation(),
+//                getFieldAnnotation(), //
+//                getFieldBridgeAnnotation(), //
+//                getTikaBridgeAnnotation(),
                 getFullTextFieldAnnotation());
         return annotations.getAnnotations();
     }
