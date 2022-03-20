@@ -56,6 +56,7 @@ CREATE TABLE Product (
     id                          int auto_increment,
     name                       	varchar(100) not null,
     quantity					decimal(65,6),
+    price						decimal(65,6),
     description					varchar(2000),
     version                     int          default 0,
 

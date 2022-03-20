@@ -109,8 +109,6 @@
                 </columnConfig>
                 <columnConfig columnName="is_enabled" searchResult="true">
                 </columnConfig>
-                <columnConfig columnName="is_encrypted" searchResult="true">
-                </columnConfig>
                 <columnConfig columnName="title" sharedEnumName="Title">
                 </columnConfig>
                 <columnConfig columnName="address_id" searchResult="true">
