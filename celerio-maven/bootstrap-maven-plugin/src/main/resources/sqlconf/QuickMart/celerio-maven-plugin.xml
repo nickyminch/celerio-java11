@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<celerio xmlns="http://www.jaxio.com/schema/celerio" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.jaxio.com/schema/celerio ./celerio.xsd">
+    <configuration rootPackage="${groupId}" applicationName="${artifactId}">
+        <!-- Which tables are used for generation -->
+        <tables>
+            <!-- <table include="false" pattern="*_AUDIT"/> -->
+            <table include="true" pattern="*"/>
+        </tables>
+
+        <!-- global number mapping (optional) -->
+        <numberMappings>
+            <numberMapping mappedType="M_BOOLEAN" columnSizeMin="1" columnSizeMax="2" columnDecimalDigitsMin="0"
+                           columnDecimalDigitsMax="0"/>
+            <!-- <numberMapping mappedType="M_BIGDECIMAL" columnSizeMin="10" columnDecimalDigitsMin="4"/> -->
+        </numberMappings>
+
+        <!-- global date mapping (optional) -->
+        <dateMappings>
+            <!-- <dateMapping columnNameRegExp="VERSION" mappedType="M_UTILDATE"/> -->
+            <!-- <dateMapping columnJdbcType="TIMESTAMP" mappedType="M_LOCALDATETIME"/> -->
+            <!-- <dateMapping columnJdbcType="DATE" mappedType="M_LOCALDATE"/> -->
+        </dateMappings>
+
+        <!-- default configuration for fetch type / cascades / 2d level cache -->
+        <defaultEntityCacheConfig usage="NONE"/>
+
+        <defaultManyToOneConfig fetch="LAZY">
+            <cascades>
+                <cascade type="PERSIST"/>
+                <cascade type="MERGE"/>
+            </cascades>
+            <cacheConfig usage="NONE"/>
+            <associationAction create="true" edit="true" view="true" select="true" autoComplete="true" remove="false"/>
+        </defaultManyToOneConfig>
+
+        <defaultOneToManyConfig orphanRemoval="true">
+            <cascades>
+                <cascade type="ALL"/>
+            </cascades>
+            <cacheConfig usage="NONE"/>
+            <associationAction create="true" edit="true" view="true" select="true" autoComplete="true" remove="true"/>
+        </defaultOneToManyConfig>
+
+        <defaultOneToOneConfig fetch="LAZY">
+            <cascades>
+                <cascade type="NONE"/>
+            </cascades>
+            <cacheConfig usage="NONE"/>
+            <associationAction create="true" edit="true" view="true" select="false" autoComplete="true" remove="false"/>
+        </defaultOneToOneConfig>
+
+        <defaultInverseOneToOneConfig fetch="LAZY">
+            <cascades>
+                <cascade type="ALL"/>
+            </cascades>
+            <cacheConfig usage="NONE"/>
+            <associationAction create="false" edit="false" view="true" select="false" autoComplete="false"
+                               remove="false"/>
+        </defaultInverseOneToOneConfig>
+
+        <defaultManyToManyConfig>
+            <cascades>
+                <cascade type="PERSIST"/>
+                <cascade type="MERGE"/>
+            </cascades>
+            <cacheConfig usage="NONE"/>
+            <associationAction create="true" edit="true" view="true" select="true" autoComplete="false" remove="true"/>
+        </defaultManyToManyConfig>
+
+        <defaultInverseManyToManyConfig>
+            <cascades>
+                <cascade type="ALL"/>
+            </cascades>
+            <cacheConfig usage="NONE"/>
+            <associationAction create="false" edit="true" view="true" select="false" autoComplete="false"
+                               remove="false"/>
+        </defaultInverseManyToManyConfig>
+
+        <conventions identifiableProperty="id">
+            <!-- <columnRenamers>
+                <columnRenamer regexp="^.{3}_" replace="" />
+            </columnRenamers> -->
+        </conventions>
+    </configuration>
+
+    <entityConfigs>
+        <!-- Account demonstrates misc column configurations -->
+        <entityConfig tableName="user">
+            <labels>
+                <label value="User Account"/>
+            </labels>
+            <columnConfigs>
+                <columnConfig columnName="login" min="4" fieldName="username" searchResult="true">
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="password" fieldName="password">
+                </columnConfig>
+                <columnConfig columnName="email" searchResult="true">
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="first_name">
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="last_name">
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="birth_date">
+                </columnConfig>
+                <columnConfig columnName="is_enabled" searchResult="true">
+                </columnConfig>
+                <columnConfig columnName="title" sharedEnumName="Title">
+                </columnConfig>
+                <columnConfig columnName="address_id" searchResult="true">
+                    <manyToOneConfig var="address">
+                    </manyToOneConfig>
+                </columnConfig>
+            </columnConfigs>
+   	    	<customAnnotations>
+	    	</customAnnotations>
+            
+        </entityConfig>
+
+        <!-- Book demonstrates one-to-many relation -->
+        <entityConfig tableName="product">
+            <labels>
+                <label value="Product" lang="en"/>
+            </labels>
+            <columnConfigs>
+                <columnConfig columnName="name" fieldName="name">
+                    <labels>
+                        <label value="Name" lang="en"/>
+                    </labels>
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="description" fieldName="description">
+                    <labels>
+                        <label value="description"/>
+                    </labels>
+                    <fullTextField/>
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+
+        <!-- Document demonstrates one-to-many relation and upload/download -->
+        <entityConfig tableName="category">
+            <columnConfigs>
+                <columnConfig columnName="name" fieldName="name">
+                    <labels>
+                        <label value="Name" lang="en"/>
+                    </labels>
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="description" fieldName="description">
+                    <labels>
+                        <label value="description"/>
+                    </labels>
+                    <fullTextField/>
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+
+        <!-- Role demonstrates many-to-many relation and spring-security integration -->
+        <entityConfig tableName="role">
+            <labels>
+                <label value="Role"/>
+            </labels>
+            <columnConfigs>
+                <columnConfig columnName="role_name" messageKey="true">
+                    <labels>
+                        <label value="Role"/>
+                    </labels>
+                    <fullTextField/>
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+
+        <entityConfig tableName="user_role" associationDirection="UNIDIRECTIONAL">
+            <columnConfigs>
+                <columnConfig columnName="user_id">
+                    <!-- <manyToManyConfig var="accounts" elementVar="account" /> -->
+                </columnConfig>
+                <columnConfig columnName="role_id" inverse="true">
+                    <manyToManyConfig var="securityRoles" elementVar="securityRole">
+                        <labels>
+                            <label value="Droits attribués" lang="fr"/>
+                        </labels>
+                    </manyToManyConfig>
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+
+        <entityConfig tableName="address">
+            <labels>
+                <label value="Address"/>
+            </labels>
+            <columnConfigs>
+                <columnConfig columnName="street_name">
+                </columnConfig>
+                <columnConfig columnName="city">
+                    <fullTextField/>
+                </columnConfig>
+                <columnConfig columnName="zip">
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+
+        <entityConfig tableName="store" associationDirection="BIDIRECTIONAL">
+            <columnConfigs>
+                <columnConfig columnName="role_id">
+                    <manyToManyConfig var="storeRoles" elementVar="storeRole" />
+                </columnConfig>
+                <columnConfig columnName="name">
+                    <labels>
+                        <label value="name"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="employee_id" fieldName="employeeId">
+                    <labels>
+                        <label value="employeeId"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="line1">
+                    <labels>
+                        <label value="line1"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="line2">
+                    <labels>
+                        <label value="line2"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="city">
+                    <labels>
+                        <label value="city"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="state">
+                    <labels>
+                        <label value="state"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="zip">
+                    <labels>
+                        <label value="zip"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="country">
+                    <labels>
+                        <label value="country"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="phone">
+                    <labels>
+                        <label value="phone"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="email">
+                    <labels>
+                        <label value="email"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="createdAt" columnName="created_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="updatedAt" columnName="updated_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+
+
+        <entityConfig tableName="store_product" associationDirection="BIDIRECTIONAL">
+            <columnConfigs>
+                <columnConfig columnName="product_id">
+                    <manyToManyConfig var="storeProducts" elementVar="storeProduct" />
+                </columnConfig>
+                <columnConfig columnName="store_id" inverse="true">
+                    <manyToManyConfig var="productStores" elementVar="productStore">
+                    </manyToManyConfig>
+                </columnConfig>
+                <columnConfig columnName="category_id">
+                    <manyToOneConfig var="storeProductCategories" elementVar="storeProductCategory" />
+                </columnConfig>
+                <columnConfig columnName="quantity">
+                    <labels>
+                        <label value="quantity"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig columnName="price">
+                    <labels>
+                        <label value="price"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="createdAt" columnName="created_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="updatedAt" columnName="updated_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+            </columnConfigs>
+        </entityConfig>
+        
+        <entityConfig tableName="shopping_cart" associationDirection="BIDIRECTIONAL">
+        	<columnConfigs>
+				<columnConfig columnName="user_id">
+                    <manyToOneConfig var="user" elementVar="user" />
+                </columnConfig>
+                <columnConfig fieldName="createdAt" columnName="created_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="updatedAt" columnName="updated_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+			</columnConfigs>
+		</entityConfig>
+
+        <entityConfig tableName="cart_items" associationDirection="BIDIRECTIONAL">
+        	<columnConfigs>
+				<columnConfig columnName="shopping_cart_id">
+                    <manyToOneConfig var="cart" elementVar="cart" />
+                </columnConfig>
+                <columnConfig columnName="quantity">
+                    <labels>
+                        <label value="quantity"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="createdAt" columnName="created_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="updatedAt" columnName="updated_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+			</columnConfigs>
+		</entityConfig>
+    </entityConfigs>
+
+    <!-- Generate enums used by the entities above -->
+    <sharedEnumConfigs>
+        <sharedEnumConfig name="Title" type="STRING">
+            <enumValues>
+                <enumValue value="MR">
+                    <labels>
+                        <label value="Mister"/>
+                    </labels>
+                </enumValue>
+                <enumValue value="MS">
+                    <labels>
+                        <label value="Miss"/>
+                    </labels>
+                </enumValue>
+            </enumValues>
+        </sharedEnumConfig>
+    </sharedEnumConfigs>
+</celerio>

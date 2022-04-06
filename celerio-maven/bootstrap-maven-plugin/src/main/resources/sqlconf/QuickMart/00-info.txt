@@ -1,0 +1,3 @@
+name=QuickMart
+description=Customized sample schema, real business, cover various cases
+description2=Tables: User, Product, Categories, etc...
