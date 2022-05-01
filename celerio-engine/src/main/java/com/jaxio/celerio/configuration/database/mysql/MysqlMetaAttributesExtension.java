@@ -43,7 +43,7 @@ public class MysqlMetaAttributesExtension extends MysqlExtension {
     }
 
     private void processYearTypes(JdbcTemplate jdbcTemplate, final Metadata metadata, final Table table) {
-        jdbcTemplate.query("show columns from " + table.getName(), new RowMapper<Void>() {
+        jdbcTemplate.query("show columns from `" + table.getName()+"`", new RowMapper<Void>() {
             @Override
             public Void mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Column column = table.getColumnByName(rs.getString("Field"));

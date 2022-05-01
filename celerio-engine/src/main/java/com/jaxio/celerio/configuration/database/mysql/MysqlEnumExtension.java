@@ -41,7 +41,7 @@ public class MysqlEnumExtension extends MysqlExtension {
     }
 
     private void processEnums(JdbcTemplate jdbcTemplate, final Metadata metadata, final Table table) {
-        jdbcTemplate.query("show columns from " + table.getName() + " where type like 'enum%'", new RowMapper<Void>() {
+        jdbcTemplate.query("show columns from `" + table.getName() + "` where type like 'enum%'", new RowMapper<Void>() {
             @Override
             public Void mapRow(ResultSet rs, int rowNum) throws SQLException {
                 processEnumType(metadata, table, rs.getString("Field"), rs.getString("Type"));

@@ -111,10 +111,6 @@
                 </columnConfig>
                 <columnConfig columnName="title" sharedEnumName="Title">
                 </columnConfig>
-                <columnConfig columnName="address_id" searchResult="true">
-                    <manyToOneConfig var="address">
-                    </manyToOneConfig>
-                </columnConfig>
             </columnConfigs>
    	    	<customAnnotations>
 	    	</customAnnotations>
@@ -195,6 +191,10 @@
                 <label value="Address"/>
             </labels>
             <columnConfigs>
+                <columnConfig columnName="user_id">
+                    <manyToOneConfig var="users" elementVar="user">
+                    </manyToOneConfig>
+                </columnConfig>
                 <columnConfig columnName="street_name">
                 </columnConfig>
                 <columnConfig columnName="city">
@@ -349,6 +349,43 @@
                 </columnConfig>
 			</columnConfigs>
 		</entityConfig>
+
+        <entityConfig tableName="orders" associationDirection="BIDIRECTIONAL">
+        	<columnConfigs>
+				<columnConfig columnName="user_id">
+                    <oneToManyConfig var="users" elementVar="user" />
+                </columnConfig>
+                <columnConfig columnName="status" sharedEnumName="OrderStatus">
+                </columnConfig>
+                <columnConfig fieldName="createdAt" columnName="created_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="updatedAt" columnName="updated_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+			</columnConfigs>
+		</entityConfig>
+        <entityConfig tableName="order_items" associationDirection="BIDIRECTIONAL">
+        	<columnConfigs>
+				<columnConfig columnName="order_id">
+                    <manyToOneConfig var="order" elementVar="order" />
+                </columnConfig>
+                <columnConfig fieldName="createdAt" columnName="created_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+                <columnConfig fieldName="updatedAt" columnName="updated_at">
+                    <labels>
+                        <label value="createdAt"/>
+                    </labels>
+                </columnConfig>
+			</columnConfigs>
+		</entityConfig>
     </entityConfigs>
 
     <!-- Generate enums used by the entities above -->
@@ -367,5 +404,20 @@
                 </enumValue>
             </enumValues>
         </sharedEnumConfig>
+                <sharedEnumConfig name="OrderStatus" type="ORDINAL">
+            <enumValues>
+                <enumValue value="Pending">
+                </enumValue>
+                <enumValue value="Processing">
+                </enumValue>
+                <enumValue value="Delivering">
+                </enumValue>
+                <enumValue value="Completed">
+                </enumValue>
+                <enumValue value="Returned">
+                </enumValue>
+            </enumValues>
+        </sharedEnumConfig>
+        
     </sharedEnumConfigs>
 </celerio>
